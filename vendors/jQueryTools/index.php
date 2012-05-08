@@ -1,0 +1,1 @@
+<?php addScript('vendors/jQueryTools/jquery.tools.min.js'); ?>

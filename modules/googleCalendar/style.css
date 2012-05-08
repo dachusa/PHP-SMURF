@@ -1,0 +1,92 @@
+#allCadCalendar{
+	width:200px;
+	margin-left:15px;
+	float:left;
+}
+
+#allCadCalendar .note{
+		font-size:10px;
+		margin-top:15px;
+}
+
+#allCadCalendar .calendarHead{
+	width:100%;
+	border-bottom:1px solid #ffffff;
+	margin-bottom:10px;
+}
+
+#allCadCalendar .calendarHead .calendarTitle{
+	float:left;
+}
+
+#allCadCalendar .calendarHead .miniNote{
+	font-size:10px;
+	float:right;
+}
+
+#allCadCalendar ul.events{
+	font-size:11px;
+	cursor:normal;
+}
+
+#allCadCalendar .heading{
+	font-weight: 700;
+	font-size: 12px;
+	padding-right: 5px;
+}
+
+#allCadCalendar ul.events li.event{
+	margin:5px 0px;
+	list-style:none;
+	cursor:pointer;
+}
+
+#allCadCalendar ul.events .eventAbrevTitle{
+	width:135px;
+	float:left;
+	overflow:hidden;
+}
+
+#allCadCalendar ul.events .eventDate{
+	width:45px;
+	float:left;
+	margin-left:5px;
+}
+
+#allCadCalendar ul.events .eventDetails{
+	display:none;
+	position:absolute;
+	width:200px;
+	margin:20px 0px 0px 20px;
+	border:2px solid #A8B6BF;
+	background:#19343D;
+	padding:10px;
+}
+
+#allCadCalendar ul.events li.event.active .eventDetails{
+	display:block;
+}
+
+#allCadCalendar ul.events .eventDetails .eventTitle{
+	text-align:center;
+	border-bottom:1px solid #04121D;
+	margin-bottom:10px;
+	padding-bottom:5px;
+	font-size:13px;
+	font-weight:700;
+}
+
+#allCadCalendar ul.events .eventDetails .eventDateTime{
+	
+}
+#allCadCalendar ul.events .eventDetails .eventDateTime ul li{
+	margin:5px 0px;
+}
+
+#allCadCalendar ul.events .eventDetails .eventLocation{
+	margin-bottom:5px;
+}
+
+#allCadCalendar ul.events .eventDetails .eventDescription{
+	margin-bottom:5px;
+}

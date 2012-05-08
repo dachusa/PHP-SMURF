@@ -1,0 +1,32 @@
+.twoCol{
+	width:960px;
+	background-color: #EDEDED;
+}
+.twoCol .innerLeft{
+	float:left;
+	width:229px;
+	padding: 10px;
+	font-size: 0.9em;
+	color: #545454;
+	background-color: #EDEDED;
+	text-align:center;
+}
+.twoCol .innerLeft .skyScraper{
+	margin-top:15px;
+	padding-top:15px;
+	border-top:1px solid #ACACAC;
+	text-align:center;
+}
+.twoCol .innerRight{
+	float:left;
+	border-left: 1px solid;
+	border-color: #ACACAC;
+	width:680px;
+	padding:15px;
+	-webkit-box-shadow: -15px 0 20px 0 rgba(0,0,0,.15);
+	-moz-box-shadow: -15px 0 20px 0 rgba(0,0,0,.15);
+	box-shadow: -15px 0 20px 0 rgba(0,0,0,.15);
+	color: #000000;
+	min-height:724px;
+	background-color: #ABABAB;
+}

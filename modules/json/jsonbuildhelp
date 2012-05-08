@@ -1,0 +1,1 @@
+chcon system_u:object_r:textrel_shlib_t /usr/lib64/php/modules/json.so

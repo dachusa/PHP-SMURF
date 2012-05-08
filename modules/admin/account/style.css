@@ -1,0 +1,152 @@
+/*******Register******/
+#signupForm{
+	width:700px;
+	margin:20px auto;
+}
+#signupForm .input-form{
+	width:700px;
+}
+#signupForm .text_field, #signupForm .select_field{
+	width:200px;
+	border:1px solid #dddddd;
+	font-size:16px;
+	height:30px;
+	line-height:30px;
+	outline:0px none;
+}
+#signupForm .text_field.active{
+	border:1px solid #777777;
+	border-right:0px none transparent;
+}
+#signupForm th, #signupForm td{
+	padding:0px 0px 15px;
+}
+#signupForm tr.full-name th, #signupForm tr.full-name td, #signupForm tr.screen-name th, #signupForm tr.screen-name td{
+	padding-bottom:0px;
+}
+#signupForm th{
+	align:right;
+	width:165px;
+	font-weight:700;
+}
+#signupForm th label{
+	width:100%;
+	align:right;
+}
+#signupForm th a{
+	font-weight:400;
+	font-size:12px;
+}
+#signupForm td.col-field{
+	width:200px;
+}
+#signupForm td.col-help .info, #signupForm td.col-help .error{
+	text-align:left;
+	background:#450D0E;
+	border:1px solid #777777;
+	border-left:0px none transparent;
+	height:30px;
+	line-height:30px;
+	font-size:12px;
+	font-weight:700;
+	margin-left:-1px;
+	padding:0px 20px;
+}
+#signupForm td.col-help .error{
+	display:none;
+}
+#signupForm td.col-help .password-meter, #signupForm td.col-help .password-confirm{
+	text-align:center;
+	background:#450D0E;
+	border:1px solid #777777;
+	border-left:0px none transparent;
+	height:30px;
+	line-height:30px;
+	font-size:12px;
+	font-weight:700;
+	margin-left:-1px;
+	padding:0px 20px;
+}
+#signupForm td.col-help .password-meter.badPass{
+	border:1px solid #000000;
+	color:#000000;
+	background-color:#C31F25;
+}
+#signupForm td.col-help .password-meter.goodPass{
+	border:1px solid #000000;
+	color:#000000;
+	background-color:#C7C716;
+}
+#signupForm td.col-help .password-meter.strongPass{
+	border:1px solid #000000;
+	color:#000000;
+	background-color:#73bc00;
+}
+#signupForm td.col-help .password-confirm{
+	border:1px solid #000000;
+	color:#000000;
+	background-color:#C31F25;
+}
+#signupForm td.col-help .password-confirm.goodPass{
+	border:1px solid #000000;
+	color:#000000;
+	background-color:#73bc00;
+}
+#signupForm .field-desc, #signupForm .instruction{
+	font-size:12px;
+	padding-top:2px;
+	vertical-align:top;
+}
+#signupForm tr.email-updates td label{
+	vertical-align:middle;
+	font-size:12px;
+}
+#signupForm .btn{
+	font-size:16px;
+	height:30px;
+	line-height:30px;
+	outline:0px none;
+	float:right;
+}
+/***************Login**************/
+#loginBox{
+	width:280px;
+	margin:25px auto;
+}
+#loginBox input{
+	padding:5px;
+	float:right;
+}
+#loginBox label{
+	font-weight:700;
+}
+#loginBox .error{
+	color:#c7c716;
+	clear:both;
+	font-weight:700;
+	margin-top:10px;
+}
+/*********/
+.tempForm, .tempForm .input-form{
+	width:600px !important;
+}
+/*************/
+.usersTable th{
+	font-weight:700;
+	color:#c7c716;
+	padding:0px 5px 10px;	
+	border-bottom:2px solid #c7c716;
+}
+.usersTable tr.even{
+	background-color:#450d0e;
+}
+.usersTable td{
+	padding:2px 5px;
+	text-align:left;
+}
+.usersTable td.temp, .usersTable td.lastLogin{
+	text-align:center;
+}
+.usersTable td.edit, .usersTable td.delete{
+	text-align:right;
+}

@@ -1,0 +1,20 @@
+.panelLinks{
+	float:right;
+	position:relative;
+}
+.panelLinks li{
+	float:left;
+	margin:0px 10px;
+}
+.panelLinks li a{
+	color:#A8B6BF;
+	font-weight:700;
+}
+.adminPanel{
+	margin-left:20px;
+}
+.adminPanel li a{
+	color:#A8B6BF;
+	font-weight:700;
+	font-size:18px;
+}

@@ -1,0 +1,28 @@
+.photoHandler{
+	display:none;
+	margin-top:-450px;
+	border:#A8B6BF solid 2px;
+	width:400;
+	position:absolute;
+	background:#10242F;
+	padding:5px 15px;
+}
+.photoHandler .closeUpload{
+	float:right;
+}
+input, select{
+	padding:3px;
+}
+.productForm input, .productForm select{
+	margin-left:15px;
+}
+.productForm input[type=button]{
+	margin-left:0px;
+}
+.productName input{
+	width:300px;
+	margin-left:30px;
+}
+.productCategory select{
+	width:200px;
+}
