@@ -20,4 +20,14 @@
 	</head>
 	<body>
 		<div class="wrapper">
+			<div class="menu">
+					<ul class="nav">
+						<?php 
+							$menuItems = SiteMenu::GetSiteMenuItems();
+							foreach($menuItems as $menuItem){
+								Common::PrintListItemLink($menuItem->title, "/".$menuItem->page->shortURL);
+							}
+						?>
+					</ul>
+				</div>
 			
