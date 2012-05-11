@@ -22,8 +22,5 @@ function compress($buffer) {
     return $buffer;
 }
 
-$rootpath = $_SERVER['DOCUMENT_ROOT'] . "/";
-$file =  $rootpath.$_GET['file'];
-
-echo file_get_contents($file);
+require_once($_SERVER['DOCUMENT_ROOT'] . "/". $_GET['file']);
 ?>

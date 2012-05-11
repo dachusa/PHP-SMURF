@@ -1,10 +1,7 @@
 <?php
 header('Content-type: text/javascript');
 
-$rootpath = $_SERVER['DOCUMENT_ROOT'] . "/";
-$file =  $rootpath.$_GET['file'];
-
-echo JSMin::minify(file_get_contents($file));
+echo JSMin::minify(file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/".$_GET['file']));
 
 /**
  * jsmin.php - PHP implementation of Douglas Crockford's JSMin.

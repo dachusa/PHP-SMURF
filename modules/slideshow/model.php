@@ -35,9 +35,19 @@
 		}  
 	}
 	
-	class SlideShow{
-	
-		function GetSlideShowByID($id){
+	class SlideShow extends Module{
+		const pathToModule = "modules/slideshow/";
+		
+		function DisplaySlideShow($id){
+			if(!isset($_GET["print"])){
+				$slideshow = self::GetSlideShowByID($id);
+				$imgDir = self::pathToModule."images";
+				parent::initModule(self::pathToModule);
+				include(self::pathToModule.'templates/slideshow.php');
+			}
+		}
+		
+		private function GetSlideShowByID($id){
 			$sqlCommand = 
 				"SELECT slideshowID, title, width, height, seconds FROM slideshows WHERE slideshowID = :slideshowID";
 			$sqlParameters = Array(":slideshowID"=>$id);
@@ -51,7 +61,7 @@
 			return null;
 		}
 		
-		function GetSlidesBySlideShowID($id){
+		private function GetSlidesBySlideShowID($id){
 			$sqlCommand = 
 				"SELECT slideID, slideshowID, imageName, link, rank FROM slides WHERE slideshowID = :slideshowID ORDER BY rank";
 			$sqlParameters = Array(":slideshowID"=>$id);

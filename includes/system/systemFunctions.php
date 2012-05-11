@@ -12,7 +12,7 @@ class Common{
 		$html = str_replace("<smurf:styles />", self::GetStyles(), $html);
 		$html = str_replace("<smurf:scripts />", self::GetScripts(), $html);
 		
-		if($globalSettings['CompressHTML']){
+		if(CommonSettings::CompressHTML){
 			$html = self::StripBufferSkipTextareaTags($html);
 		}
 		
@@ -52,9 +52,6 @@ class Common{
 		$buffer = ereg_replace(" {2,}", ' ',$buffer);
 		// remove single spaces between tags
 		$buffer = str_replace("> <", "><", $buffer);
-		// remove single spaces around &nbsp;
-		$buffer = str_replace(" &nbsp;", "&nbsp;", $buffer);
-		$buffer = str_replace("&nbsp; ", "&nbsp;", $buffer);
 		return $buffer;
 	}
 	
@@ -106,7 +103,7 @@ class Common{
 		if(!isset($_GET["print"])){
 			if($scripts==null ||  !in_array($script_path, $scripts)){
 			
-				if($globalSettings['CompressJavascript']){
+				if(CommonSettings::CompressJavascript){
 					$script_path = str_replace(".js", ".js.gzip", $script_path);
 				}
 				$scripts[] = $script_path;
@@ -149,7 +146,7 @@ class Common{
 		
 		if(!isset($_GET["print"])){
 			if($styles==null || !in_array($style_path, $styles)){
-				if($globalSettings['CompressCSS']){
+				if(CommonSettings::CompressCSS){
 					$style_path = str_replace(".css", ".css.gzip", $style_path);
 				}
 				$styles[] = $style_path;
@@ -190,33 +187,6 @@ class Common{
 		global $mysqlAdmin;
 		global $url;
 		include("vendors/$vendor/index.php");
-	}
-	
-	/**
-	*   Add Module
-	**/
-	function AddModule($module){
-		global $mysqlReader;
-		global $mysqlAdmin;
-		global $url;
-		
-		//Include Module Model
-		if(file_exists("modules/$module/model.php")){
-			include_once("modules/$module/model.php");
-		}
-		
-		//Include Module Style
-		if(file_exists("modules/$module/style.css")){
-			self::AddStyle("modules/$module/style.css");
-		}
-		
-		//Include Module Init
-		include("modules/$module/index.php");
-		
-		//Include Module Script
-		if(file_exists("modules/$module/script.js")){
-			self::AddScript("modules/$module/script.js");
-		}
 	}
 	
 	function IncludeColHeader($cols){

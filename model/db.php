@@ -17,18 +17,44 @@
 		}  
 	}
 
-	class DB{
-		function Query($sqlCommand,$sqlParameters=null){
-			global $mysqlReader;
+	class DBConnection{
+		public $readOnly;
+		public $readWrite;
+				
+		public function __construct($readOnly, $readWrite)  
+		{  
+			$this->readOnly = $readOnly;
+			$this->readWrite = $readWrite;
+		}
+	}
+	
+	class DB extends ConnectionSettings{
+		private static $dbConnection;
+		
+		function EstablishConnections(){
+			//Establish Read Only Connection
+			if(!isset($mysql) || $mysql==null){				
+				$mysqlReader =  new PDO("mysql:host=" . self::Host . ";dbname=".self::DBName, self::ReadOnlyUser, self::ReadOnlyPassword);
+			}
 			
+			//Establish Read Write Connection
+			if(!isset($mysql) || $mysql==null){				
+				$mysqlAdmin =  new PDO("mysql:host=" . self::Host . ";dbname=".self::DBName, self::ReadWriteUser, self::ReadWritePassword);
+			}
+			
+			self::$dbConnection = new DBConnection($mysqlReader, $mysqlAdmin);
+		}
+		
+		function Query($sqlCommand,$sqlParameters=null){
 			try {
-				$mysqlReader->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$readOnly = self::$dbConnection->readOnly;
+				$readOnly->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				if($sqlParameters!=null){
-					$sqlQuery = $mysqlReader->prepare($sqlCommand);
+					$sqlQuery = $readOnly->prepare($sqlCommand);
 					$sqlQuery->execute($sqlParameters);
 					return $sqlQuery->fetchAll();
 				}else{
-					$sqlResponse = $mysqlReader->query($sqlCommand);
+					$sqlResponse = $readOnly->query($sqlCommand);
 					return $sqlResponse;
 				}
 			} catch (PDOException $e) {
@@ -36,17 +62,16 @@
 			}
 		}
 		function QueryCount($sqlCommand,$sqlParameters=null){
-			global $mysqlReader;
-			
 			try {
-				$mysqlReader->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$readOnly = self::$dbConnection->readOnly;
+				$readOnly->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				if($sqlParameters!=null){
-					$sqlQuery = $mysqlReader->prepare($sqlCommand);
+					$sqlQuery = $readOnly->prepare($sqlCommand);
 					$sqlQuery->execute($sqlParameters);
 					return sizeof($sqlQuery->fetchAll());
 				}else{
-					$mysqlReader->query($sqlCommand);
-					$foundRows = $mysqlReader->query("SELECT FOUND_ROWS()")->fetchColumn();
+					$readOnly->query($sqlCommand);
+					$foundRows = $readOnly->query("SELECT FOUND_ROWS()")->fetchColumn();
 					return $foundRows;
 				}
 			} catch (PDOException $e) {
@@ -54,4 +79,6 @@
 			}
 		}
 	}
+	
+	DB::EstablishConnections();
 ?>
