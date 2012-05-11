@@ -28,7 +28,7 @@ $(function(){
 
 function startSlideshow(){
 	if(playSlideshow){
-		var timeout = 10000;
+		var timeout = slideShowTimeoutInSeconds * 1000;
 		timer = setTimeout(function(){nextSlide();}, timeout);
 		return false;
 	}

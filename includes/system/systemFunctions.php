@@ -1,9 +1,62 @@
 <?php
 class Common{
 
-	private $scripts="";
-	private $styles="";
+	private $scripts = Array();
+	private $styles = Array();
 	private $doUpdate = true;
+	
+	function OB_Callback($buffer){
+		global $globalSettings;
+		
+		$html = $buffer;
+		$html = str_replace("<smurf:styles />", self::GetStyles(), $html);
+		$html = str_replace("<smurf:scripts />", self::GetScripts(), $html);
+		
+		if($globalSettings['CompressHTML']){
+			$html = self::StripBufferSkipTextareaTags($html);
+		}
+		
+		return $html;
+	}
+	
+	private function StripBufferSkipTextareaTags($buffer){
+		$poz_current = 0;
+		$poz_end = strlen($buffer)-1;
+		$result = "";
+		
+		while ($poz_current < $poz_end){
+			$t_poz_start = stripos($buffer, "<textarea", $poz_current);
+			if ($t_poz_start === false){
+				$buffer_part_2strip = substr($buffer, $poz_current);
+				$temp = self::StripBuffer($buffer_part_2strip);
+				$result .= $temp;
+				$poz_current = $poz_end;
+			}
+			else{
+				$buffer_part_2strip = substr($buffer, $poz_current, $t_poz_start-$poz_current);
+				$temp = self::StripBuffer($buffer_part_2strip);
+				$result .= $temp;
+				$t_poz_end = stripos($buffer, "</textarea>", $t_poz_start);
+				$temp = substr($buffer, $t_poz_start, $t_poz_end-$t_poz_start);
+				$result .= $temp;
+				$poz_current = $t_poz_end;
+			}
+		}
+		return $result;
+	}
+	
+	private function StripBuffer($buffer){
+		// change new lines and tabs to single spaces
+		$buffer = str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $buffer);
+		// multispaces to single...
+		$buffer = ereg_replace(" {2,}", ' ',$buffer);
+		// remove single spaces between tags
+		$buffer = str_replace("> <", "><", $buffer);
+		// remove single spaces around &nbsp;
+		$buffer = str_replace(" &nbsp;", "&nbsp;", $buffer);
+		$buffer = str_replace("&nbsp; ", "&nbsp;", $buffer);
+		return $buffer;
+	}
 	
 	function IsActivePage($relativeURL, $class=""){
 		if(self::IsCurrentPage($relativeURL)){
@@ -46,12 +99,30 @@ class Common{
 	*	Add the script file to the common js
 	**/
 	function AddScript($script_path){
+		global $scripts;
+		global $doUpdate;
+		global $globalSettings;
+		
 		if(!isset($_GET["print"])){
-			global $scripts;
-			global $doUpdate;
+			if($scripts==null ||  !in_array($script_path, $scripts)){
 			
-			print "<script type=\"text/javascript\" src=\"/$script_path\"></script>";
-			/*
+				if($globalSettings['CompressJavascript']){
+					$script_path = str_replace(".js", ".js.gzip", $script_path);
+				}
+				$scripts[] = $script_path;
+			}
+		}
+	}
+	
+	private function GetScripts(){
+		global $scripts;
+		
+		$collectiveScripts="";
+		foreach($scripts as $script){
+			$collectiveScripts.="<script type=\"text/javascript\" src=\"/$script\"></script>";
+		}
+		
+		/*
 			if($doUpdate){
 				if (isset($script_path)) {
 					$scripts .= minifyJS($script_path);
@@ -64,18 +135,26 @@ class Common{
 				}
 			}
 			*/
-		}
+			
+		return $collectiveScripts;
 	}
 	
 	/**
 	*	Add the style file to the common css and minify it
 	**/
 	function AddStyle($style_path){
+		global $styles;
+		global $doUpdate;
+		global $globalSettings;
+		
 		if(!isset($_GET["print"])){
-			global $styles;
-			global $doUpdate;
+			if($styles==null || !in_array($style_path, $styles)){
+				if($globalSettings['CompressCSS']){
+					$style_path = str_replace(".css", ".css.gzip", $style_path);
+				}
+				$styles[] = $style_path;
+			}
 			
-			print "<link rel=\"stylesheet\" type=\"text/css\" href=\"/$style_path\" />";
 			/*
 			if($doUpdate){
 				if (isset($style_path)) {
@@ -90,6 +169,17 @@ class Common{
 			}
 			*/
 		}
+	}
+	
+	private function GetStyles(){
+		global $styles;
+		
+		$collectiveStyles="";
+		foreach($styles as $style){
+			$collectiveStyles.="<link rel=\"stylesheet\" type=\"text/css\" href=\"/$style\" />";
+		}
+		
+		return $collectiveStyles;
 	}
 	
 	/**
@@ -109,7 +199,24 @@ class Common{
 		global $mysqlReader;
 		global $mysqlAdmin;
 		global $url;
+		
+		//Include Module Model
+		if(file_exists("modules/$module/model.php")){
+			include_once("modules/$module/model.php");
+		}
+		
+		//Include Module Style
+		if(file_exists("modules/$module/style.css")){
+			self::AddStyle("modules/$module/style.css");
+		}
+		
+		//Include Module Init
 		include("modules/$module/index.php");
+		
+		//Include Module Script
+		if(file_exists("modules/$module/script.js")){
+			self::AddScript("modules/$module/script.js");
+		}
 	}
 	
 	function IncludeColHeader($cols){
@@ -133,5 +240,6 @@ class Common{
 			include_once $rootpath."includes/templates/twoColFooter.php";
 		}
 	}
+	
 }
 ?>

@@ -8,9 +8,9 @@
 		<title>PHP SMURF<?php echo ($page->title!="") ? " | ".$page->title : "" ; ?></title>
 		<?php
 			Common::AddStyle('styles/reset.css');
-			Common::AddStyle('styles/jquery-ui.custom.css');
 			Common::AddStyle('styles/smurf.css');
 		?>
+		<smurf:styles />
 		<?php 
 			Common::AddBaseScript("scripts/jquery.js");
 			Common::AddBaseScript("scripts/jquery-ui.js");

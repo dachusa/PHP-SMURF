@@ -1,40 +1,40 @@
-<?php 
-	if(!isset($_GET["print"])){
-		Common::AddStyle('modules/slideshow/style.css');
-	?>
-		<div id='slideShow'>
-		<?php
-			$imgDir = "/modules/slideshow/images";
-			$rowNum = 0;
-			$selectSlides = "SELECT * FROM slideshow ORDER BY slideshow.order";			
-			$slides = DB::Query($selectSlides);
-			if(sizeOf($slides) > 0){?>
-				<div class="slides">
-					<ul>
-						<?php
-						foreach($slides as $slide){
-							extract($slide);
+<?php if(!isset($_GET["print"])){ ?>
+	<div id='slideShow'>
+	<?php
+		$slideshow = SlideShow::GetSlideShowByID(1);
+		if($slideshow!=null && sizeOf($slideshow->slides) > 0){?>
+			<style type="text/css">
+				#slideShow, .slides{
+					width:<?php echo $slideshow->width;?>px;
+					height:<?php echo $slideshow->height;?>px;
+			</style>
+			<div class="slides">
+				<ul>
+					<?php
+						$imgDir = "/modules/slideshow/images";	
+						$rowNum = 1;
+						foreach($slideshow->slides as $slide){
+							echo "<li class='slide' id='slide$rowNum' rel='$rowNum'><a href='$slide->link'><img src='$imgDir/$slide->imageName' alt='$slide->imageName'></a></li>";
 							$rowNum++;
-							echo "<li class='slide' id='slide$rowNum' rel='$rowNum'><a href='$link'><img src='$imgDir/$imageName' alt='$imageName'></a></li>";
 						}
-						?>
-					</ul>
-				</div>
-				<div id='slideNav'>
-					<ul>
-						<?php
-						for($i = 1; $i <= $rowNum; $i++){
-							echo "<li class='slideLink'><a href='#' rel='slide$i'>$i</a></li>";
-						}
-						?>
-					</ul>
-				</div>
-				<?php
-			}
-		?>
-		</div>
-		<div class='clearFix'></div>
-		<?php	
-		Common::AddScript('modules/slideshow/script.js');
-	}
-?>
+					?>
+				</ul>
+			</div>
+			<div id='slideNav'>
+				<ul>
+					<?php
+					for($i = 1; $i <= $rowNum; $i++){
+						echo "<li class='slideLink'><a href='#' rel='slide$i'>$i</a></li>";
+					}
+					?>
+				</ul>
+			</div>
+			<script type="text/javascript">
+				var slideShowTimeoutInSeconds = <?php echo $slideshow->seconds; ?>; 
+			</script>
+			<?php
+		}
+	?>
+	</div>
+	<div class='clearFix'></div>
+<?php	} ?>
