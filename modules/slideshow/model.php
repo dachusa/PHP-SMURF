@@ -48,10 +48,16 @@
 		}
 		
 		private function GetSlideShowByID($id){
-			$sqlCommand = 
-				"SELECT slideshowID, title, width, height, seconds FROM slideshows WHERE slideshowID = :slideshowID";
-			$sqlParameters = Array(":slideshowID"=>$id);
+			$sqlCommand =  
+				"SELECT slideshowID, title, width, height, seconds 
+				FROM slideshows 
+				WHERE slideshowID = :slideshowID";
+			$sqlParameters = Array(
+				new SQLParameter(":slideshowID", $id, "int")
+			);
 			$slideshows = DB::Query($sqlCommand, $sqlParameters);
+				unset($sqlCommand);
+				unset($sqlParameters);
 					
 			foreach($slideshows as $slideshow){
 				$slideshow['slides'] = self::GetSlidesBySlideShowID($slideshow['slideshowID']);
@@ -62,10 +68,16 @@
 		}
 		
 		private function GetSlidesBySlideShowID($id){
-			$sqlCommand = 
-				"SELECT slideID, slideshowID, imageName, link, rank FROM slides WHERE slideshowID = :slideshowID ORDER BY rank";
-			$sqlParameters = Array(":slideshowID"=>$id);
+			$sqlCommand =  
+				"SELECT slideID, slideshowID, imageName, link, rank 
+				FROM slides 
+				WHERE slideshowID = :slideshowID ORDER BY rank";
+			$sqlParameters = Array(
+				new SQLParameter(":slideshowID", $id, "int")
+			);
 			$slides = DB::Query($sqlCommand, $sqlParameters);
+				unset($sqlCommand);
+				unset($sqlParameters);
 			
 			$slidesObject = Array();
 			foreach($slides as $slide){

@@ -1,19 +1,29 @@
 <?php
 	class SQLParameter{
 		public $parameter;
-		public $variable;
+		public $value;
 		public $dataType;
 		
-		public function __construct($pageID, $shortURL, $fullURL, $title, $parentID, $menuID, $cols, $dbContent)  
+		public function __construct($parameter, $value, $dataType="string")  
 		{  
-			$this->pageID = $pageID;
-			$this->shortURL = $shortURL;
-			$this->fullURL = $fullURL;
-			$this->title = $title;
-			$this->parentID = $parentID;
-			$this->menuID = $menuID;
-			$this->cols = $cols;
-			$this->dbContent = $dbContent;
+			$this->parameter = $parameter;
+			$this->value = $value;
+			switch($dataType){
+				case "string":
+					$this->dataType = PDO::PARAM_STR;
+					break;
+				case "int":
+					$this->dataType = PDO::PARAM_INT;
+					break;
+				case "bool":
+					$this->dataType = PDO::PARAM_BOOL;
+					break;
+				case "null":
+					$this->dataType = PDO::PARAM_NULL;
+					break;
+				default:
+					$this->dataType = PDO::PARAM_STR;
+			}
 		}  
 	}
 
@@ -51,7 +61,10 @@
 				$readOnly->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				if($sqlParameters!=null){
 					$sqlQuery = $readOnly->prepare($sqlCommand);
-					$sqlQuery->execute($sqlParameters);
+					foreach($sqlParameters as $sqlParameter){
+						$sqlQuery->bindParam($sqlParameter->parameter, $sqlParameter->value, $sqlParameter->dataType);
+					}
+					$sqlQuery->execute();
 					return $sqlQuery->fetchAll();
 				}else{
 					$sqlResponse = $readOnly->query($sqlCommand);

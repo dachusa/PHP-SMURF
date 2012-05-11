@@ -24,11 +24,18 @@
 	}
 	
 	class Page{
-		function GetByShortURL($shortURL){
-			global $mysqlReader;
-			$sqlCommand = "SELECT * FROM pages where shortURL = :shortURL";
-			$sqlParameters = Array(":shortURL"=>$shortURL);
+		function GetByShortURL($shortURL){			
+			$sqlCommand = 
+				"SELECT * 
+				FROM pages 
+				WHERE shortURL = :shortURL";
+			$sqlParameters = Array(
+				new SQLParameter(":shortURL", $shortURL, "string")
+			);
 			$pages = DB::Query($sqlCommand, $sqlParameters);
+				unset($sqlCommand);
+				unset($sqlParameters);
+				
 			foreach($pages as $page){
 				$page = self::arrayToObject($page);
 				if($page->dbContent){
@@ -47,8 +54,13 @@
 			global $mysqlAdmin;
 			global $url;
 			
-			$sqlCommand = "SELECT * FROM pageContent where pageID = :pageID";
-			$sqlParameters = Array(":pageID"=>$pageID);
+			$sqlCommand = 
+				"SELECT * 
+				FROM pageContent 
+				WHERE pageID = :pageID";
+			$sqlParameters = Array(
+				new SQLParameter(":pageID", $pageID, "int")
+			);
 			$pages = DB::Query($sqlCommand, $sqlParameters);
 			
 			foreach($pages as $page){
@@ -57,7 +69,7 @@
 			return null;
 		}
 		
-		function arrayToObject($pageArray){			
+		private function arrayToObject($pageArray){			
 			return new PageObject(
 				$pageArray['pageID'],
 				$pageArray['shortURL'],

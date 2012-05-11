@@ -59,6 +59,7 @@
 									);
 				$menuItems[] = $menuItem;
 			}
+			unset($sqlCommand);
 			return $menuItems;
 		}
 	}
