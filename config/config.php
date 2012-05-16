@@ -3,13 +3,13 @@
 	
 	class ConnectionSettings{
 		const Host = "localhost";
-		const DBName = "IDMT";
+		const DBName = "";
 		
-		const ReadOnlyUser = "idmtUsr";
-		const ReadOnlyPassword = "10UdkmFK94][";
+		const ReadOnlyUser = "";
+		const ReadOnlyPassword = "";
 		
-		const ReadWriteUser = "idmtAdm";
-		const ReadWritePassword ="OUbu!%f1-,2h";
+		const ReadWriteUser = "";
+		const ReadWritePassword ="";
 	}
 	
 	class CommonSettings{
